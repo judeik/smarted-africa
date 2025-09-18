@@ -16,7 +16,7 @@
     "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "class-variance-authority": "^0.7.1",
-    "framer-motion": "^12.23.14",
+    "framer-motion": "^12.23.15",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1",

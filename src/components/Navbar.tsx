@@ -6,21 +6,22 @@
  * - Uses semantic markup and keyboard-friendly toggles
  */
 
-import React from "react";
+import React, { JSX } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Logo from '../assets/Logo_2.png'
 
 export default function Navbar(): JSX.Element {
   const loc = useLocation();
   return (
     <header aria-label="Primary" className="bg-white border-bottom">
-      <div className="container d-flex align-items-center justify-content-between py-2">
+      <div className="container d-flex align-items-center justify-content-between py-3">
         <Link
           to="/"
           className="d-flex align-items-center text-decoration-none"
           aria-label="SmartEd Africa home"
         >
           <img
-            src="/logo192.png"
+            src={ Logo }
             alt="SmartEd Africa logo"
             width={40}
             height={40}
@@ -34,6 +35,7 @@ export default function Navbar(): JSX.Element {
 
         <nav aria-label="Main navigation">
           <ul className="d-flex gap-2 list-unstyled mb-0 align-items-center">
+            <div className="d-flex gap-3" style={{marginRight: 20, color: "blue"}}>
             <li>
               <Link
                 className={`btn btn-sm ${loc.pathname === "/" ? "btn-outline-primary" : "btn-link"}`}
@@ -50,6 +52,7 @@ export default function Navbar(): JSX.Element {
                 Dashboard
               </Link>
             </li>
+            </div>
             <li>
               <Link
                 className={`btn btn-sm ${loc.pathname === "/login" ? "btn-primary" : "btn-outline-primary"}`}

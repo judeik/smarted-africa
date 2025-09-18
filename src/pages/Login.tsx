@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type FormState = {
   identifier: string;
@@ -39,7 +39,7 @@ export default function Login(): JSX.Element {
     <div className="container py-4" style={{ maxWidth: 520 }}>
       <h2>Log in</h2>
       <p className="text-muted">
-        Use email/phone and password, or choose Magic Link for passwordless login.
+        Make use of your Email/Phone and password or Choose Magic Link for passwordless login.
       </p>
       <form onSubmit={handleSubmit} aria-describedby="login-error">
         {error && (
@@ -49,7 +49,7 @@ export default function Login(): JSX.Element {
         )}
         <div className="mb-3">
           <label htmlFor="identifier" className="form-label">
-            Email or Phone
+            Email / Phone Number
           </label>
           <input
             id="identifier"
@@ -78,7 +78,7 @@ export default function Login(): JSX.Element {
             Minimum 8 characters. Use a mix of letters and numbers.
           </div>
         </div>
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-3" style={{marginTop: "2rem"}}>
           <button type="submit" className="btn btn-primary">
             Log in
           </button>
@@ -91,9 +91,9 @@ export default function Login(): JSX.Element {
           </button>
         </div>
       </form>
-      <div className="mt-3 small">
+      <div className="mt-4 small">
         <p>
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>
     </div>

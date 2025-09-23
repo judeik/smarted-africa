@@ -1,0 +1,6 @@
+@SmartedAfricaApiAuth_HostAddress = http://localhost:5030
+
+GET {{SmartedAfricaApiAuth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,43 +1,8 @@
-// src/context/AuthContext.tsx
-import { createContext, ReactNode, useState } from "react";
+// src/context/AuthContext.ts
+// Context object only (no component here)
 
-export type User = {
-  name: string;
-  role: "student" | "teacher" | "parent" | "admin";
-};
+import { createContext } from "react";
+import type { AuthContextType } from "./authTypes";
 
-export type AuthContextType = {
-  user: User | null;
-  login: (userData: User) => void;
-  logout: () => void;
-  isAuthenticated: boolean;
-};
-
+// Context defaults to undefined until wrapped in <AuthProvider>
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem("authUser", JSON.stringify(userData));
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("authUser");
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        isAuthenticated: !!user,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-}

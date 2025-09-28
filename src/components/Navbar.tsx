@@ -8,8 +8,8 @@ import "@assets/styles/custom.css";
 import { APP_NAME, APP_TAGLINE } from "@constants/app";
 import { useAuth } from "@context/useAuth";
 import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import  {FaBars, FaTimes} from 'react-icons/fa'
 
 export default function Navbar(): React.ReactElement {
   const { isAuthenticated } = useAuth();

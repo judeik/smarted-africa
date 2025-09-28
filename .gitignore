@@ -37,6 +37,7 @@ pnpm-debug.log*
 # Environment Variables
 # (keep example files public)
 # ===============================
+env
 .env
 .env.*
 !.env.example

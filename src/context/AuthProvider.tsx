@@ -1,46 +1,87 @@
 // src/context/AuthProvider.tsx
-import { ReactNode, useEffect, useState } from "react";
-import { AuthContext, AuthContextType, User } from "./auth-context";
+// Provides auth state + API integration with backend cookies
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    if (typeof window === "undefined") return null;
-    const s = localStorage.getItem("authUser");
-    return s ? (JSON.parse(s) as User) : null;
-  });
+import React, { useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext";
+import type { User } from "./authTypes";
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL; // ✅ from .env
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  //  Check existing session on mount
   useEffect(() => {
-    // rehydrate if needed (safe-guard)
-    if (!user) {
-      const stored = localStorage.getItem("authUser");
-      if (stored) {
-        try {
-          setUser(JSON.parse(stored));
-        } catch {
-          localStorage.removeItem("authUser");
+    const checkSession = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/session`, {
+          credentials: "include", // send cookies with request
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
         }
+      } catch (err) {
+        console.error("Session check failed:", err);
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [user]);
+    };
 
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem("authUser", JSON.stringify(userData));
+    checkSession();
+  }, []);
+
+  // Login user
+  const login = async (email: string, password: string) => {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // cookie-based auth
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) throw new Error("Login failed");
+    const data = await res.json();
+    setUser(data.user);
   };
 
-  const logout = () => {
+  // Signup user
+  const signup = async (data: { name: string; email: string; password: string }) => {
+    const res = await fetch(`${API_BASE}/api/auth/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) throw new Error("Signup failed");
+    const result = await res.json();
+    setUser(result.user);
+  };
+
+  // Logout user
+  const logout = async () => {
+    await fetch(`${API_BASE}/api/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
     setUser(null);
-    localStorage.removeItem("authUser");
   };
 
-  const value: AuthContextType = {
-    user,
-    login,
-    logout,
-    isAuthenticated: !!user,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        isAuthenticated: !!user,
+        login,
+        signup,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
-
-export default AuthProvider;

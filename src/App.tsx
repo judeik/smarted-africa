@@ -19,6 +19,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '@context/AuthProvider';
 import { useAuth } from '@context/useAuth';
 
+// Debugging
+console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);  //
+
 // Core components
 import Footer from '@components/Footer';
 import LoadingSpinner from '@components/LoadingSpinner';

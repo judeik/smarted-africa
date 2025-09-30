@@ -1,0 +1,15 @@
+// src/context/useAuth.ts
+// 🔹 Hook for consuming the AuthContext safely
+
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used inside an <AuthProvider>");
+  }
+
+  return context;
+}

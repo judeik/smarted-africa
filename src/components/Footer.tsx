@@ -4,7 +4,11 @@
  */
 import React from "react";
 
+<<<<<<< HEAD
 export default function Footer(): JSX.Element {
+=======
+export default function Footer(): React.ReactElement {
+>>>>>>> jude
   return (
     <footer className="site-footer bg-light" role="contentinfo">
       <div className="container">

@@ -5,8 +5,9 @@
  * Frontend performs basic validation; backend must enforce full validation and verification.
  */
 
-import React from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../assets/styles/custom.css"; // external CSS for custom styles
 import { validateEmail } from "../utils/validators";
 
 type FormState = {
@@ -16,20 +17,20 @@ type FormState = {
   role: "student" | "teacher" | "parent" | "admin";
 };
 
-export default function Signup(): JSX.Element {
-  const [form, setForm] = React.useState<FormState>({
+export default function Signup(): React.ReactElement {
+  const [form, setForm] = useState<FormState>({
     name: "",
     identifier: "",
     password: "",
     role: "student",
   });
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
@@ -52,7 +53,7 @@ export default function Signup(): JSX.Element {
   };
 
   return (
-    <div className="container py-4" style={{ maxWidth: 640 }}>
+    <div className="signup-container py-4">
       <h2>Create an account</h2>
       <p className="text-muted">
         Sign up with email or phone. We'll verify your contact info before full access.

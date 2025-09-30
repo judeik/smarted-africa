@@ -6,7 +6,7 @@
 
 import React from "react";
 
-export default function Dashboard(): JSX.Element {
+export default function Dashboard(): React.ReactElement {
   return (
     <div className="container py-4">
       <h2>Dashboard</h2>

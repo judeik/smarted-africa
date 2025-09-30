@@ -6,10 +6,10 @@
  * - Uses semantic markup and keyboard-friendly toggles
  */
 
-import React, { JSX, useState } from "react";
+import { JSX, useState } from "react";
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useLocation } from "react-router-dom";
-import Logo from '../assets/Logo_2.png'
-import { FaBars, FaTimes } from 'react-icons/fa'
+import Logo from '../assets/Logo_2.png';
 
 export default function Navbar(): JSX.Element {
   const loc = useLocation();
@@ -121,4 +121,3 @@ export default function Navbar(): JSX.Element {
     </header>
   );
 }
-// Note: Extend with real auth state to show user profile, logout, etc.

@@ -1,3 +1,4 @@
+#project dependencies
 from openai import OpenAI
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -5,14 +6,18 @@ import uvicorn
 from dotenv import load_dotenv
 import os
 
+#load env
 load_dotenv()
 #print("KEY IS:", os.getenv("OPENAI_API_KEY"))
 
+#create API to wrap ai calls
 app = FastAPI()
 
-client = OpenAI(api_key="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")
+#ai api key hidden in env
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #os.getenv("OPENAI_API_KEY")
 
+#post and get calls for ai
 class Query(BaseModel):
   text: str
 
@@ -20,9 +25,11 @@ class Query(BaseModel):
 def ask_ai_post(query: Query):
   response = client.chat.completions.create(
     model = "gpt-4o-mini",
+    #training prompts
     messages = [
       {"role": "system", "content": "You are a waec, nce, gce and jamb teaching AI."},
       {"role": "system", "content": "If user asks a question not in any waec, jamb, gce,nce or school curriculum, remind them of your purpose"},
+      {"role": "system", "content": "The users first message would be the language preferece, use that language as the default language for your response"},
       {"role": "user", "content": query.text}
     ]
   )
@@ -34,6 +41,7 @@ def ask_ai_post(query: Query):
 def ask_ai_get(text: str):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
+        #training prompts
         messages=[
           {"role": "system", "content": "You are a waec, nce, gce and jamb teaching AI."},
           {"role": "system", "content": "If user asks a question not in any waec, jamb, gce, nce or school curriculum, remind them of your purpose"},
@@ -44,8 +52,9 @@ def ask_ai_get(text: str):
     bot_reply = response.choices[0].message.content
     return {"answer": bot_reply}
 
+#if statement to run api
 if __name__ == "__main__":
   uvicorn.run(app, host = "0.0.0.0", port = 8001)
 
   #to run on terminal
-  #uvicorn smarted-africa.openai_api:app --reload
+  #uvicorn openai_api:app --reload
